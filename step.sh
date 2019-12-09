@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-set -ex
-
-echo "BITRISE_BUILD_STATUS: $build_status"
 
 case $build_status in
 0) BITBUCKET_BUILD_STATE="INPROGRESS" ;; # Not finished
@@ -11,14 +8,14 @@ case $build_status in
 4) BITBUCKET_BUILD_STATE="SUCCESSFUL" ;; # Aborted with success
 esac
 
-echo "BITBUCKET_BUILD_STATE: $BITBUCKET_BUILD_STATE"
+BITBUCKET_API_ENDPOINT="https://$bitbucket_server_domain/rest/build-status/1.0/commits/$git_clone_commit_hash"
 
-echo "curl: https://$bitbucket_server_domain/rest/build-status/1.0/commits/$git_clone_commit_hash"
+echo "Post build status: $BITBUCKET_BUILD_STATE"
+echo "API Endpoint: $BITBUCKET_API_ENDPOINT"
 
 curl https://$bitbucket_server_domain/rest/build-status/1.0/commits/$git_clone_commit_hash \
   -X POST \
   -i \
-  -v \
   -u $bitbucket_server_username:$bitbucket_server_password \
   -H 'Content-Type: application/json' \
   --data-binary \
