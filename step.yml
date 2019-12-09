@@ -1,0 +1,68 @@
+title: |-
+  Bitbucket server post build status
+summary: |
+  Post build status to bitbucket server
+description: |
+  Post build status to bitbucket server
+website: https://github.com/teameh/bitrise-step-bitbucket-server-post-build-status
+source_code_url: https://github.com/teameh/bitrise-step-bitbucket-server-post-build-status
+support_url: https://github.com/teameh/bitrise-step-bitbucket-server-post-build-status/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+type_tags:
+  - notification
+
+is_requires_admin_user: false
+is_always_run: true
+is_skippable: false
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+inputs:
+  - bitbucket_server_domain:
+    opts:
+      title: "Bitbucket Server domain name"
+      summary: Full domain name without protocol eg 'my-domain.com'
+      is_required: true
+  - bitbucket_server_username:
+    opts:
+      title: "Bitbucket Server username"
+      summary: Username used to make REST calls
+      is_required: true
+  - bitbucket_server_password:
+    opts:
+      title: "Bitbucket Server password"
+      summary: Password for username
+      is_required: true
+  - clone_into_dir: "$BITRISE_SOURCE_DIR"
+    opts:
+      title: "Clone destination (local) directory path"
+      is_required: true
+  - build_status: "$BITRISE_BUILD_STATUS"
+    opts:
+      title: "Bitrise build status"
+      is_required: true
+  - git_clone_commit_hash: "$GIT_CLONE_COMMIT_HASH"
+    opts:
+      title: "Git commit hash"
+      is_required: true
+  - app_title: "$BITRISE_APP_TITLE"
+    opts:
+      title: "Bitrise apptitle"
+      is_required: true
+  - build_number: "$BITRISE_BUILD_NUMBER"
+    opts:
+      title: "Bitrise build number"
+      is_required: true
+  - build_url: "$BITRISE_BUILD_URL"
+    opts:
+      title: "Bitrise build url"
+      is_required: true
+  - triggered_workflow_id: "$BITRISE_TRIGGERED_WORKFLOW_ID"
+    opts:
+      title: "Bitrise triggered workflow id"
+      is_required: true
