@@ -23,26 +23,22 @@ toolkit:
     entry_file: step.sh
 
 inputs:
-  - bitbucket_server_domain: "$BITBUCKET_SERVER_DOMAIN"
+  - bitbucket_server_domain:
     opts:
       title: "Bitbucket Server domain name"
       summary: Full domain name without protocol eg 'my-domain.com'
       is_required: true
-  - bitbucket_server_username: "$BITBUCKET_SERVER_USERNAME"
+  - bitbucket_server_username:
     opts:
       title: "Bitbucket Server username"
       summary: Username used to make REST calls
       is_required: true
-  - bitbucket_server_password: "$BITBUCKET_SERVER_PASSWORD"
+  - bitbucket_server_password:
     opts:
       title: "Bitbucket Server password"
       summary: Password for username
       is_required: true
       is_sensitive: true
-  - clone_into_dir: "$BITRISE_SOURCE_DIR"
-    opts:
-      title: "Clone destination (local) directory path"
-      is_required: true
   - build_status: "$BITRISE_BUILD_STATUS"
     opts:
       title: "Bitrise build status"
