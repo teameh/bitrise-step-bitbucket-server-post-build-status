@@ -38,6 +38,7 @@ inputs:
       title: "Bitbucket Server password"
       summary: Password for username
       is_required: true
+      is_sensitive: true
   - clone_into_dir: "$BITRISE_SOURCE_DIR"
     opts:
       title: "Clone destination (local) directory path"
