@@ -23,17 +23,17 @@ toolkit:
     entry_file: step.sh
 
 inputs:
-  - bitbucket_server_domain:
+  - bitbucket_server_domain: "$BITBUCKET_SERVER_DOMAIN"
     opts:
       title: "Bitbucket Server domain name"
       summary: Full domain name without protocol eg 'my-domain.com'
       is_required: true
-  - bitbucket_server_username:
+  - bitbucket_server_username: "$BITBUCKET_SERVER_USERNAME"
     opts:
       title: "Bitbucket Server username"
       summary: Username used to make REST calls
       is_required: true
-  - bitbucket_server_password:
+  - bitbucket_server_password: "$BITBUCKET_SERVER_PASSWORD"
     opts:
       title: "Bitbucket Server password"
       summary: Password for username
