@@ -54,7 +54,7 @@ if [ "$preset_status" != "AUTO" ]; then
   if [ "$preset_status" == "INPROGRESS" ] || [ "$preset_status" == "SUCCESSFUL" ] || [ "$preset_status" == "FAILED" ]; then
     BITBUCKET_BUILD_STATE=$preset_status
   else
-    echo "- Invalid preset_status, must be one of [\"AUTO\", \"SUCCESSFUL\", \"FAILED\"]"
+    echo "- Invalid preset_status, must be one of [\"AUTO\", \"INPROGRESS\", \"SUCCESSFUL\", \"FAILED\"]"
     INVALID_INPUT=true
   fi
 elif [ -z "$BITRISE_BUILD_STATUS" ]; then
