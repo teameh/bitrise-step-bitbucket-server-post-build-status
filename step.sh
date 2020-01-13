@@ -50,7 +50,7 @@ if [ -z "$triggered_workflow_id" ]; then
   echo "- Missing input field: triggered_workflow_id"
 fi
 
-if [ "$preset_status" != "AUTO" ]; then
+if [ -n "$preset_status" ] && [ "$preset_status" != "AUTO" ]; then
   if [ "$preset_status" == "INPROGRESS" ] || [ "$preset_status" == "SUCCESSFUL" ] || [ "$preset_status" == "FAILED" ]; then
     BITBUCKET_BUILD_STATE=$preset_status
   else
