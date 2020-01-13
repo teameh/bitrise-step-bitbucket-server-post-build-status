@@ -16,58 +16,71 @@ type_tags:
 
 is_requires_admin_user: false
 is_always_run: true
-is_skippable: false
+is_skippable: true
 
 toolkit:
   bash:
     entry_file: step.sh
 
 inputs:
-  - bitbucket_server_domain:
+  - domain:
     opts:
       title: Bitbucket Server domain name
       summary: Full domain name without protocol eg 'my-domain.com'
+      description: Full domain name without protocol eg 'my-domain.com'
       is_required: true
-  - bitbucket_server_username:
+  - username:
     opts:
       title: Bitbucket Server username
-      summary: Username used to make REST calls
+      summary: The username used to make REST calls to bitbucket server
+      description: The username used to make REST calls to bitbucket server
       is_required: true
-  - bitbucket_server_password:
+  - password:
     opts:
       title: Bitbucket Server password
-      summary: Password for username
+      summary: The password for the bitbucket server username
+      description: The password for the bitbucket server username
       is_required: true
       is_sensitive: true
-  - build_is_in_progress: false
+  - preset_status: "auto"
     opts:
-      title: Flag build status as 'in progress'
-      summary: Input 'true' here to send INPROGRESS status to Bitbucket
-      description: Use either this input value OR build_status
-      is_required: false
-  - build_status: $BITRISE_BUILD_STATUS
-    opts:
-      title: Bitrise build status
-      summary: Input the bitrise build stus here to send a FAILED or SUCCESSFUL status to Bitbucket
-      description: Use either this input value OR build_is_in_progress
-      is_required: false
+      title: "Set Specific Status"
+      summary: "Override bitrise build status"
+      description: |-
+        If set, this step will set a specific status instead of reporting the current build status.
+
+        Can be one of `AUTO`, `INPROGRESS`, `SUCCESSFUL`, or `FAILED`.
+
+        If you don't set this option, or select `AUTO`, the step will send `SUCCESSFUL` status if the current build status is `SUCCESSFUL`
+        (no step failed previously) and `FAILED` status if the build previously failed.
+
+        Use this to report `INPROGRESS` for builds that are just started.
+      value_options:
+      - "AUTO"
+      - "INPROGRESS"
+      - "SUCCESSFUL"
+      - "FAILED"
   - git_clone_commit_hash: $GIT_CLONE_COMMIT_HASH
     opts:
       title: Git commit hash
       is_required: true
   - app_title: $BITRISE_APP_TITLE
     opts:
-      title: Bitrise apptitle
+      title: Bitrise app title
+      is_dont_change_value: true
       is_required: true
   - build_number: $BITRISE_BUILD_NUMBER
     opts:
       title: Bitrise build number
+      is_dont_change_value: true
       is_required: true
   - build_url: $BITRISE_BUILD_URL
     opts:
       title: Bitrise build url
+      is_dont_change_value: true
       is_required: true
   - triggered_workflow_id: $BITRISE_TRIGGERED_WORKFLOW_ID
     opts:
       title: Bitrise triggered workflow id
+      is_dont_change_value: true
       is_required: true

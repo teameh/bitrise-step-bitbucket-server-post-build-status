@@ -4,24 +4,30 @@ join_ws() { local IFS=; local s="${*/#/$1}"; echo "${s#"$1$1$1"}"; }
 joinStrings() { local a=("${@:3}"); printf "%s" "$2${a[@]/#/$1}"; }
 
 INVALID_INPUT=false
-if [ -z "$bitbucket_server_domain" ]; then
+if [ -z "$domain" ]; then
   INVALID_INPUT=true
-  echo "- Missing input field: bitbucket_server_domain"
+  echo "- Missing input field: domain"
 fi
 
-if [ -z "$bitbucket_server_username" ]; then
+if [ -z "$username" ]; then
   INVALID_INPUT=true
-  echo "- Missing input field: bitbucket_server_username"
+  echo "- Missing input field: username"
 fi
 
-if [ -z "$bitbucket_server_password" ]; then
+if [ -z "$password" ]; then
   INVALID_INPUT=true
-  echo "- Missing input field: bitbucket_server_password"
+  echo "- Missing input field: password"
 fi
 
 if [ -z "$git_clone_commit_hash" ]; then
-  INVALID_INPUT=true
-  echo "- Missing input field: git_clone_commit_hash"
+  git_clone_commit_hash=`git rev-parse HEAD`
+
+  echo "- Missing input field: git_clone_commit_hash, falling back to 'git rev-parse HEAD' ($git_clone_commit_hash)"
+
+  if [ -z "$git_clone_commit_hash" ]; then
+    echo "- Unable to get git commit from current directory or git_clone_commit_hash input field"
+    INVALID_INPUT=true
+  fi
 fi
 
 if [ -z "$app_title" ]; then
@@ -44,28 +50,22 @@ if [ -z "$triggered_workflow_id" ]; then
   echo "- Missing input field: triggered_workflow_id"
 fi
 
-if [ -z "$build_status" ] && [ -z "$build_is_in_progress" ]; then
-  INVALID_INPUT=true
-  echo "- Missing input field: build_status OR build_status"
-fi
-
-if [ ! -z $build_status ]; then
-  if [ "$build_status" == 0 ]; then
-    BITBUCKET_BUILD_STATE="SUCCESSFUL"
-  elif [ "$build_status" == 1 ]; then
-    BITBUCKET_BUILD_STATE="FAILED"
+if [ "$preset_status" != "AUTO" ]; then
+  if [ "$preset_status" == "INPROGRESS" ] || [ "$preset_status" == "SUCCESSFUL" ] || [ "$preset_status" == "FAILED" ]; then
+    BITBUCKET_BUILD_STATE=$preset_status
   else
-    echo "- Invalid build_status: ${build_status}";
+    echo "- Invalid preset_status, must be one of [\"AUTO\", \"SUCCESSFUL\", \"FAILED\"]"
     INVALID_INPUT=true
   fi
-fi
-
-if [ ! -z "$build_is_in_progress" ] && [ "$build_is_in_progress" == true ]; then
-  BITBUCKET_BUILD_STATE="INPROGRESS"
-fi
-
-if [ -z "$BITBUCKET_BUILD_STATE" ]; then
-  echo "- build_status is not set and build_is_in_progress is unset or not true";
+elif [ -z "$BITRISE_BUILD_STATUS" ]; then
+  echo "- Missing env var: \$BITRISE_BUILD_STATUS"
+  INVALID_INPUT=true
+elif [ "$BITRISE_BUILD_STATUS" == "0" ]; then
+  BITBUCKET_BUILD_STATE="SUCCESSFUL"
+elif [ "$BITRISE_BUILD_STATUS" == "1" ]; then
+  BITBUCKET_BUILD_STATE="FAILED"
+else
+  echo "- Invalid \$BITRISE_BUILD_STATUS. Should be \"0\" or \"1\", not '$BITRISE_BUILD_STATUS'"
   INVALID_INPUT=true
 fi
 
@@ -73,7 +73,7 @@ if [ "$INVALID_INPUT" == true ]; then
   exit 1
 fi
 
-BITBUCKET_API_ENDPOINT="https://$bitbucket_server_domain/rest/build-status/1.0/commits/$git_clone_commit_hash"
+BITBUCKET_API_ENDPOINT="https://$domain/rest/build-status/1.0/commits/$git_clone_commit_hash"
 
 echo "Post build status: $BITBUCKET_BUILD_STATE"
 echo "API Endpoint: $BITBUCKET_API_ENDPOINT"
@@ -81,7 +81,7 @@ echo "API Endpoint: $BITBUCKET_API_ENDPOINT"
 curl $BITBUCKET_API_ENDPOINT \
   -X POST \
   -i \
-  -u $bitbucket_server_username:$bitbucket_server_password \
+  -u $username:$password \
   -H 'Content-Type: application/json' \
   --data-binary \
       $'{
