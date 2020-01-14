@@ -14,18 +14,20 @@ Typically you want to notify bitbucket when a build is started and when a build 
     
     - bitbucket-server-post-build-status:
         inputs:
-        - bitbucket_server_username: "$BITBUCKET_SERVER_USERNAME"
-        - bitbucket_server_password: "$BITBUCKET_SERVER_PASSWORD"
-        - bitbucket_server_domain: "$BITBUCKET_SERVER_DOMAIN"
-        - build_is_in_progress: true
+        - username: "$BITBUCKET_SERVER_USERNAME"
+        - password: "$BITBUCKET_SERVER_PASSWORD"
+        - domain: "$BITBUCKET_SERVER_DOMAIN"
+        - preset_status: INPROGRESS
     
     - other-steps..
     - ..for-this-workflow
     
     - bitbucket-server-post-build-status:
         inputs:
-        - bitbucket_server_username: "$BITBUCKET_SERVER_USERNAME"
-        - bitbucket_server_password: "$BITBUCKET_SERVER_PASSWORD"
-        - bitbucket_server_domain: "$BITBUCKET_SERVER_DOMAIN"
+        - username: "$BITBUCKET_SERVER_USERNAME"
+        - password: "$BITBUCKET_SERVER_PASSWORD"
+        - domain: "$BITBUCKET_SERVER_DOMAIN"
 
 ```
+
+Make sure you use a 'secret' variable for the password
