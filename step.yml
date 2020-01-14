@@ -42,7 +42,7 @@ inputs:
       description: The password for the bitbucket server username
       is_required: true
       is_sensitive: true
-  - preset_status: "auto"
+  - preset_status: "AUTO"
     opts:
       title: "Set Specific Status"
       summary: "Override bitrise build status"
