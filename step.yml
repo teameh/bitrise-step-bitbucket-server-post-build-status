@@ -47,7 +47,7 @@ inputs:
       title: "Set Specific Status"
       summary: "Override bitrise build status"
       description: |-
-        If set, this step will set a specific status instead of reporting the current build status.
+        If not set to `AUTO`, this step will set a specific status instead of reporting the current build status.
 
         Can be one of `AUTO`, `INPROGRESS`, `SUCCESSFUL`, or `FAILED`.
 
