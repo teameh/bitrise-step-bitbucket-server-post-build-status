@@ -63,6 +63,7 @@ inputs:
   - git_clone_commit_hash: $GIT_CLONE_COMMIT_HASH
     opts:
       title: Git commit hash
+      is_dont_change_value: true
       is_required: true
   - app_title: $BITRISE_APP_TITLE
     opts:
