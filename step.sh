@@ -84,11 +84,11 @@ curl $BITBUCKET_API_ENDPOINT \
   -u $username:$password \
   -H 'Content-Type: application/json' \
   --data-binary \
-      $'{
-        "state": "'$BITBUCKET_BUILD_STATE'",
-        "key": "Bitrise",
-        "name": "Bitrise '$app_title' #'$build_number'",
-        "url": "'$build_url'",
-        "description": "workflow: '$triggered_workflow_id'"
-       }' \
+      $"{
+        \"state\": \"'$BITBUCKET_BUILD_STATE'\",
+        \"key\": \"Bitrise\",
+        \"name\": \"Bitrise '$app_title' #'$build_number'\",
+        \"url\": \"'$build_url'\",
+        \"description\": \"workflow: '$triggered_workflow_id'\"
+       }" \
    --compressed
