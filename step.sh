@@ -97,7 +97,7 @@ curl $BITBUCKET_API_ENDPOINT \
   --data-binary \
       $"{
         \"state\": \"$BITBUCKET_BUILD_STATE\",
-        \"key\": \"Bitrise - Build #$triggered_workflow_id\",
+        \"key\": \"Bitrise - Build $triggered_workflow_id\",
         \"name\": \"Bitrise $app_title ($triggered_workflow_id) #$build_number\",
         \"url\": \"$build_url\",
         \"description\": \"workflow: $triggered_workflow_id\"
