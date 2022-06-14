@@ -7,7 +7,7 @@ app:
   - A_SECRET_PARAM: $A_SECRET_PARAM
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: bitbucket-server-post-build-status
-  - BITRISE_STEP_VERSION: "0.0.1"
+  - BITRISE_STEP_VERSION: "0.0.13"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/teameh/bitrise-step-bitbucket-server-post-build-status.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: https://github.com/teameh/bitrise-steplib.git
 
