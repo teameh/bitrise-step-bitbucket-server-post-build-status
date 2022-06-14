@@ -80,14 +80,10 @@ echo "API Endpoint: $BITBUCKET_API_ENDPOINT"
 
 # Bitbucket is storing a build status per COMMIT_HASH && KEY.
 #
-# So updating the build status of an existing build from INPROGRESS
-# to FAILED or SUCCESSFUL needs to have the SAME commit_hash AND key!
+# Updating the build status of an existing build from INPROGRESS to FAILED or SUCCESSFUL needs to have the SAME commit_hash AND key.
+# Re-running a failed build with the same commit should also have the same key so the status is updated.
 #
-# Also if the a developer simply re-runs a failed build on the same commit,
-# we also have to use the same key. Would otherwise result in having 2 separate
-# build status stored by Bitbucket for the same commit --> don't use $build_number for the KEY
-#
-# Docu: https://developer.atlassian.com/server/bitbucket/how-tos/updating-build-status-for-commits/
+# Docs: https://developer.atlassian.com/server/bitbucket/how-tos/updating-build-status-for-commits/
 
 curl $BITBUCKET_API_ENDPOINT \
   -X POST \
