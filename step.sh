@@ -85,7 +85,7 @@ echo "API Endpoint: $BITBUCKET_API_ENDPOINT"
 #
 # Docs: https://developer.atlassian.com/server/bitbucket/how-tos/updating-build-status-for-commits/
 
-curl $BITBUCKET_API_ENDPOINT \
+response_code=$(curl $BITBUCKET_API_ENDPOINT \
   -X POST \
   -i \
   -u $username:$password \
@@ -98,4 +98,20 @@ curl $BITBUCKET_API_ENDPOINT \
         \"url\": \"$build_url\",
         \"description\": \"workflow: $triggered_workflow_id\"
        }" \
-   --compressed
+   --compressed \
+   -w "%{http_code}" \
+   -o /dev/null | xargs
+   )
+
+# Check if the curl request failed (i.e., exit code is non-zero)
+if [ $? -ne 0 ]; then
+    echo "Curl request failed. Exiting with status 1."
+    exit 1
+fi
+
+echo -e "Response code = $response_code"
+
+if [ -n "$fail_on_response_code" ] && [ "$response_code" == "$fail_on_response_code" ]; then
+    echo "Fail step response code found. Exiting Step with status 1."
+    exit 1
+fi
