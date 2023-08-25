@@ -84,3 +84,9 @@ inputs:
       title: Bitrise triggered workflow id
       is_dont_change_value: true
       is_required: true
+  - fail_on_response_code:
+    opts:
+      title: "Fail Step on a specific response code"
+      summary: In case you want to fail the step when an specific response code is returned.
+      description: In case you want to fail the step when an specific response code is returned.
+      is_required: false
